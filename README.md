@@ -1,5 +1,6 @@
 # Calculator
 
+## Step 01
 To learn Rust I'm trying to rewrite most my personal projects made in C to Rust.
 
 Now isn't different. I'll convert the calculator project first implemented in C.
@@ -16,3 +17,8 @@ For this project I'll use axum and tokio as base to implement the webserver.
 
 The server is running, and it is providing us a health endpoint in JSON enconding.
 That's it. Bye
+
+## Step 02
+
+Server's running. Now We can add a new route, the calculate route. 
+The serve's is calculating a plus operation. That's it.
