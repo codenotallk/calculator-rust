@@ -2,6 +2,7 @@ use axum::{routing::get, serve, Router};
 use routes::{calculate::calculate, health::health};
 use tokio::net::TcpListener;
 
+pub mod domain;
 pub mod routes;
 
 #[tokio::main]

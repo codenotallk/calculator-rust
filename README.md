@@ -22,3 +22,11 @@ That's it. Bye
 
 Server's running. Now We can add a new route, the calculate route. 
 The serve's is calculating a plus operation. That's it.
+
+## Step 03
+
+For this step We can add more operations. the Diagram remains the same.
+To calculate. Let's create a domain.
+
+In another moment We'll handle the errors properly. Not now.
+Now the server can handle the basic operations. That's it
