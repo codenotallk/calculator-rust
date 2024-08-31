@@ -4,6 +4,7 @@ use tokio::net::TcpListener;
 
 pub mod domain;
 pub mod routes;
+pub mod repository;
 
 #[tokio::main]
 async fn main() {

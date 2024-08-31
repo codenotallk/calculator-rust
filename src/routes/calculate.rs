@@ -1,7 +1,7 @@
 use axum::{extract::Query, Json};
 use serde::{Deserialize, Serialize};
 
-use crate::domain::operation::Operation;
+use crate::{domain::operation::Operation, repository::repository};
 
 #[derive(Deserialize)]
 pub struct CalculateRequest {
@@ -36,12 +36,17 @@ pub async fn calculate(
     };
 
     match request.try_into() as Result<Operation, _> {
-        Ok(operation) => Ok(Json(CalculateResponse {
-            operation: operation.name(),
-            value_1: operation.value_1(),
-            value_2: operation.value_2(),
-            result: operation.result(),
-        })),
+        Ok(operation) => {
+
+            repository::save (operation.clone());
+
+            Ok(Json(CalculateResponse {
+                operation: operation.name(),
+                value_1: operation.value_1(),
+                value_2: operation.value_2(),
+                result: operation.result(),
+            }))
+        },
         Err(err) => Err(Json(err)),
     }
 }

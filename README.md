@@ -30,3 +30,14 @@ To calculate. Let's create a domain.
 
 In another moment We'll handle the errors properly. Not now.
 Now the server can handle the basic operations. That's it
+
+## Step 04
+
+Now we can calculate some operations. In this step I will create a persistence file.
+Here we intent to store to get a report after.
+
+In the save we need to clone the operation.
+
+To store the data. Here We use a CSV crate.
+
+Alright! All the operations were saved into file. That's it.

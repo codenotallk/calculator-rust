@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Operation {
     name: String,
     value_1: u32,
