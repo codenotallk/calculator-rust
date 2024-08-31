@@ -5,13 +5,13 @@ use serde::Serialize;
 
 use crate::domain::operation::Operation;
 
-
 #[derive(Serialize)]
 struct OperationMapper {
     name: String,
     value_1: u32,
     value_2: u32,
     result: u32,
+    create_at: u64
 }
 
 impl From<Operation> for OperationMapper {
@@ -20,15 +20,20 @@ impl From<Operation> for OperationMapper {
             name: operation.name(),
             value_1: operation.value_1(),
             value_2: operation.value_2(),
-            result: operation.result()
+            result: operation.result(),
+            create_at: operation.create_at()
         }
     }
 }
 
-pub fn save (operation: Operation) {
+pub fn save(operation: Operation) {
     let mapper = OperationMapper::from(operation);
 
-    let file = match OpenOptions::new().create(true).append(true).open("operations.csv") {
+    let file = match OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("report.csv")
+    {
         Ok(file) => file,
         Err(_) => todo!(),
     };

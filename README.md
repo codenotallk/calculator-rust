@@ -41,3 +41,9 @@ In the save we need to clone the operation.
 To store the data. Here We use a CSV crate.
 
 Alright! All the operations were saved into file. That's it.
+
+I forgot to mark the time when the data was created. Let's do that.
+I'll create a common crate to hold these functions that it will be common between the modules
+
+To implement this function I need chrono.
+Now it is really finished. That's it.

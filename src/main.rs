@@ -2,9 +2,10 @@ use axum::{routing::get, serve, Router};
 use routes::{calculate::calculate, health::health};
 use tokio::net::TcpListener;
 
+pub mod common;
 pub mod domain;
-pub mod routes;
 pub mod repository;
+pub mod routes;
 
 #[tokio::main]
 async fn main() {

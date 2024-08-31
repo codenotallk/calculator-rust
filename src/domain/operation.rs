@@ -1,9 +1,12 @@
+use crate::common::time::now;
+
 #[derive(Clone)]
 pub struct Operation {
     name: String,
     value_1: u32,
     value_2: u32,
     result: u32,
+    create_at: u64,
 }
 
 impl Operation {
@@ -14,6 +17,7 @@ impl Operation {
                 value_1,
                 value_2,
                 result: Operation::calculate(&name, value_1, value_2),
+                create_at: now(),
             })
         } else {
             Err("Operation not found")
@@ -34,6 +38,10 @@ impl Operation {
 
     pub fn result(&self) -> u32 {
         self.result
+    }
+
+    pub fn create_at(&self) -> u64 {
+        self.create_at
     }
 
     fn check_operation(name: &String) -> bool {
