@@ -81,3 +81,58 @@ impl Operation {
         }
     }
 }
+
+impl Default for Operation {
+    fn default() -> Self {
+        Self {
+            name: Default::default(),
+            value_1: Default::default(),
+            value_2: Default::default(),
+            result: Default::default(),
+            create_at: Default::default(),
+        }
+    }
+}
+
+pub struct OperationBuilder(Operation);
+
+impl OperationBuilder {
+    pub fn new() -> Self {
+        Self(Operation::default())
+    }
+
+    pub fn with_operation(mut self, operation: String) -> Self {
+        self.0.name = operation;
+        self
+    }
+
+    pub fn with_value_1(mut self, value: u32) -> Self {
+        self.0.value_1 = value;
+        self
+    }
+
+    pub fn with_value_2(mut self, value: u32) -> Self {
+        self.0.value_2 = value;
+        self
+    }
+
+    pub fn with_result(mut self, value: u32) -> Self {
+        self.0.result = value;
+        self
+    }
+
+    pub fn with_epoch(mut self, value: u64) -> Self {
+        self.0.create_at = value;
+        self
+    }
+
+    pub fn build(self) -> Operation {
+        Operation {
+            name: self.0.name,
+            value_1: self.0.value_1,
+            value_2: self.0.value_2,
+            result: self.0.result,
+            create_at: self.0.create_at,
+        }
+    }
+}

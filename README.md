@@ -47,3 +47,10 @@ I'll create a common crate to hold these functions that it will be common betwee
 
 To implement this function I need chrono.
 Now it is really finished. That's it.
+
+## Sep 05
+To retrieve the data. It's necessary to read the file.
+So to accomplish that. In this step, I will read the file and give a response of a vector 
+of Report Response. The diagram It's like that.
+
+The server is capable to answer the operations already made. That's it.
