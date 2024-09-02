@@ -25,7 +25,7 @@ impl From<Operation> for ReportResponse {
 }
 
 pub async fn report() -> Json<Vec<ReportResponse>> {
-    let operations = repository::get();
+    let operations = repository::get().await;
 
     let reponses: Vec<ReportResponse> = operations
         .into_iter()

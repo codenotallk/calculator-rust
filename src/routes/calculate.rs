@@ -38,7 +38,7 @@ pub async fn calculate(
 
     match request.try_into() as Result<Operation, _> {
         Ok(operation) => {
-            repository::save(operation.clone());
+            repository::save(operation.clone()).await;
 
             Ok(Json(CalculateResponse {
                 operation: operation.name(),
