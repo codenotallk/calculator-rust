@@ -64,3 +64,17 @@ I'll create the table to follow the conversion rules.
 The docker compose file I'll get from C project in SAT library.
 
 Now the application is able to get data from postgres database. That's it. Bye.
+
+## Step 07
+
+Now we have a database. But imagine yourself one thing. We are getting all data from the database. We need to set a limit for that, and on more thing. We'll make the server capable to retrieve data through a period.
+
+The query are optional. If they exist we need to consider in our sql query.
+Going to report route we need to create a DTO to receive the query to fill our structure
+
+Now we need a function to verify if the string was received is in the right format.
+
+Now I'll clear the database.
+
+Our filter is working...
+Now we can get the data using query. On thing here is: We get only 20 records. We need to give an information how many pages there are in the database. That's it. Bye.

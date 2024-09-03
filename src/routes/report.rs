@@ -1,7 +1,7 @@
-use axum::Json;
-use serde::Serialize;
+use axum::{extract::Query, Json};
+use serde::{Deserialize, Serialize};
 
-use crate::{common::time::date_formatted, domain::operation::Operation, repository::repository};
+use crate::{common::time::{date_formatted, get_epoch_from_formatted}, domain::operation::Operation, repository::repository::{self, Interval}};
 
 #[derive(Serialize)]
 pub struct ReportResponse {
@@ -24,13 +24,55 @@ impl From<Operation> for ReportResponse {
     }
 }
 
-pub async fn report() -> Json<Vec<ReportResponse>> {
-    let operations = repository::get().await;
+#[derive(Debug, Deserialize)]
+pub struct ReportRequest {
+    offset: Option<u32>,
+    from: Option<String>,
+    to: Option<String>,
+}
 
-    let reponses: Vec<ReportResponse> = operations
-        .into_iter()
-        .map(|operation| ReportResponse::from(operation))
-        .collect();
+impl TryInto <Interval> for ReportRequest {
+    type Error = &'static str;
 
-    Json(reponses)
+    fn try_into(self) -> Result<Interval, Self::Error> {
+        
+        let from = if let Some (from) = &self.from {
+            match get_epoch_from_formatted (from) {
+                Ok(date) => Some (date),
+                Err(err) => return Err(err),
+            }
+        } else {
+            None
+        };
+
+        let to = if let Some (to) = &self.to {
+            match get_epoch_from_formatted (to) {
+                Ok(date) => Some (date),
+                Err(err) => return Err(err),
+            }
+        } else {
+            None
+        };
+
+        Ok(Interval::new(self.offset, from, to))
+    }
+}
+
+pub async fn report(filter: Query<ReportRequest>) -> Result<Json<Vec<ReportResponse>>, Json<&'static str>> {
+
+    let interval: Result<Interval, _> = filter.0.try_into();
+
+    match interval {
+        Ok(interval) => {
+            let operations = repository::get(interval).await;
+
+            let reponses: Vec<ReportResponse> = operations
+                .into_iter()
+                .map(|operation| ReportResponse::from(operation))
+                .collect();
+
+            Ok(Json(reponses))
+        },
+        Err(err) => Err(Json(err)),
+    }
 }
