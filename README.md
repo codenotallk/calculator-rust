@@ -78,3 +78,26 @@ Now I'll clear the database.
 
 Our filter is working...
 Now we can get the data using query. On thing here is: We get only 20 records. We need to give an information how many pages there are in the database. That's it. Bye.
+
+## Step 08
+We already have a server working. Well, this is a good point to test it. Let's benchmark the server to see how many requests we get without errors.
+
+For do that. I'll use Apache HTTP server benchmarking tool.
+
+I'll clear the database to see how many registers will be there after the test.
+
+The result was 135s to complete the 1000 requests. No errors.
+An average of 1 request in 7 seconds
+Transfer rate 1.4 Kbytes/sec
+All 1000 registers into database
+
+I'll increment to 100 clients
+
+For this new setup
+We got 85 requests errors
+We got 915 valid requests
+Requests per second:    29.46 [#/sec] (mean)
+
+There are some ways to improve that, but it is good to have a performance idea about how our server is performing.
+
+That's it. Bye

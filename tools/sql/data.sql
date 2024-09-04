@@ -3,3 +3,7 @@
 delete from reports_tb;
 
 select * from reports_tb;
+
+delete from  reports_tb;
+
+select count(*) from reports_tb;
