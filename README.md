@@ -101,3 +101,12 @@ Requests per second:    29.46 [#/sec] (mean)
 There are some ways to improve that, but it is good to have a performance idea about how our server is performing.
 
 That's it. Bye
+
+## Step 09
+We will split the server into two servers, each one for an endpoint.
+To do that. We'll use the rust workspace.
+
+The architecture will be just like that.
+
+Now we have the servers running separated. We have a problem right now. We need to set the
+port for each resource. That's it. Before I leave, Let me remove the src folder. Bye

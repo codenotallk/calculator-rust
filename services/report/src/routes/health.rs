@@ -10,6 +10,6 @@ pub struct Health {
 pub async fn health() -> Json<Health> {
     Json(Health {
         status: "up".to_owned(),
-        message: "Calculator Server".to_owned(),
+        message: "Report Service".to_owned(),
     })
 }
