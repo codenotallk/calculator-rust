@@ -13,3 +13,12 @@ services:
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
       - /home/cssouza/postgres/report:/var/lib/postgresql/data
+    network_mode: host
+  
+  proxy-reverse:
+    image: nginx
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf
+    network_mode: host

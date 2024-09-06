@@ -110,3 +110,15 @@ The architecture will be just like that.
 
 Now we have the servers running separated. We have a problem right now. We need to set the
 port for each resource. That's it. Before I leave, Let me remove the src folder. Bye
+
+## Step 10
+Now with servers splitted. We need some resource that can join them together.
+For that, we have NGINX. 
+
+First We need to add the NGINX to our docker compose file.
+And create a configuration file to configure the reverse proxy.
+
+All the services are running on localhost. I'll change the the docker compose network 
+to use the host network.
+
+This step is a quite simple. Now we have unified the services behind one endpoint plus port. That's it.
