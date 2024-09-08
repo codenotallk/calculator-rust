@@ -1,6 +1,6 @@
 use crate::common::time::now;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct Operation {
     name: String,
     value_1: u32,

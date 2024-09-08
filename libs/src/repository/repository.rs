@@ -42,16 +42,16 @@ impl Into<Operation> for OperationMapper {
 pub struct Interval {
     offset: Option<u32>,
     from: Option<i64>,
-    to: Option<i64>
+    to: Option<i64>,
 }
 
 impl Interval {
-    pub fn new (offset: Option<u32>, from: Option<i64>, to: Option<i64>) -> Self {
+    pub fn new(offset: Option<u32>, from: Option<i64>, to: Option<i64>) -> Self {
         Self { offset, from, to }
     }
 }
 
-pub async  fn save(operation: Operation) {
+pub async fn save(operation: Operation) {
     let mapper = OperationMapper::from(operation);
 
     let url = "host=localhost port=5432 user=root password=root dbname=report_db";
@@ -102,7 +102,7 @@ pub async fn get(interval: Interval) -> Vec<Operation> {
         }
     });
 
-    let query = query_build (interval);
+    let query = query_build(interval);
 
     for row in client.query(query.as_str(), &[]).await.unwrap() {
         let mapper = OperationMapper {
@@ -129,27 +129,26 @@ pub async fn get(interval: Interval) -> Vec<Operation> {
     operations
 }
 
-
-fn query_build (interval: Interval) -> String {
+fn query_build(interval: Interval) -> String {
     let mut query = "select * from reports_tb ".to_string();
 
     let offset = match interval.offset {
-        Some (offset) => offset,
-        None => 0
+        Some(offset) => offset,
+        None => 0,
     };
 
     match (interval.from, interval.to) {
-        (Some (from), Some (to)) => {
+        (Some(from), Some(to)) => {
             query.push_str(&format!("where create_at between {} and {} ", from, to));
-        },
-        (Some (from), _) => {
+        }
+        (Some(from), _) => {
             query.push_str(&format!("where create_at >= {} ", from));
-        },
-        (_, Some (to)) => {
+        }
+        (_, Some(to)) => {
             query.push_str(&format!("where create_at <= {} ", to));
-        },
+        }
 
-        _ => ()
+        _ => (),
     }
 
     query.push_str(&format!("order by id desc limit 20 offset {}", offset));

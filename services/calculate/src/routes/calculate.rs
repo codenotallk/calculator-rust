@@ -1,7 +1,21 @@
-use axum::{extract::Query, Json};
-use libs::{common::time::date_formatted, domain::operation::Operation, repository::repository};
+use std::sync::{mpsc::Sender, Arc};
+
+use axum::{
+    extract::{Query, State},
+    Json,
+};
+use libs::{common::time::date_formatted, domain::operation::Operation};
 use serde::{Deserialize, Serialize};
 
+pub struct AppState {
+    sender: Sender<Operation>,
+}
+
+impl AppState {
+    pub fn new(sender: Sender<Operation>) -> Self {
+        Self { sender }
+    }
+}
 
 #[derive(Deserialize)]
 pub struct CalculateRequest {
@@ -27,7 +41,20 @@ impl TryInto<Operation> for CalculateRequest {
     }
 }
 
+impl From<Operation> for CalculateResponse {
+    fn from(operation: Operation) -> Self {
+        CalculateResponse {
+            operation: operation.name(),
+            value_1: operation.value_1(),
+            value_2: operation.value_2(),
+            result: operation.result(),
+            create_at: date_formatted(operation.create_at() as i64),
+        }
+    }
+}
+
 pub async fn calculate(
+    State(state): State<Arc<AppState>>,
     params: Query<CalculateRequest>,
 ) -> Result<Json<CalculateResponse>, Json<&'static str>> {
     let request = CalculateRequest {
@@ -38,15 +65,9 @@ pub async fn calculate(
 
     match request.try_into() as Result<Operation, _> {
         Ok(operation) => {
-            repository::save(operation.clone()).await;
+            let _ = state.sender.send(operation.clone());
 
-            Ok(Json(CalculateResponse {
-                operation: operation.name(),
-                value_1: operation.value_1(),
-                value_2: operation.value_2(),
-                result: operation.result(),
-                create_at: date_formatted(operation.create_at() as i64),
-            }))
+            Ok(Json(CalculateResponse::from(operation)))
         }
         Err(err) => Err(Json(err)),
     }

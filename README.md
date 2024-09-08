@@ -122,3 +122,20 @@ All the services are running on localhost. I'll change the the docker compose ne
 to use the host network.
 
 This step is a quite simple. Now we have unified the services behind one endpoint plus port. That's it.
+
+## Step 11
+
+Now We'll change the things a little bit. We'll add a Broker to our architecture.
+The Broker selected for that is Kafka.
+
+We need to modify some steps.
+
+I have to change the nginx port because the default port used by kafka/zookeeper is 8080. After at some point we will add a configuration to make more flexible.
+
+Let's try to put everything online
+
+I'll use Conduktor to connect to the broker.
+Everything is ok
+
+Now the architecture is like that. The next step is create a new service to consume 
+all messages produced by calculate service. That's it.

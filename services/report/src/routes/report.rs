@@ -1,7 +1,10 @@
 use axum::{extract::Query, Json};
-use libs::{common::time::{date_formatted, get_epoch_from_formatted}, domain::operation::Operation, repository::{repository, repository::Interval}};
+use libs::{
+    common::time::{date_formatted, get_epoch_from_formatted},
+    domain::operation::Operation,
+    repository::{repository, repository::Interval},
+};
 use serde::{Deserialize, Serialize};
-
 
 #[derive(Serialize)]
 pub struct ReportResponse {
@@ -31,23 +34,22 @@ pub struct ReportRequest {
     to: Option<String>,
 }
 
-impl TryInto <Interval> for ReportRequest {
+impl TryInto<Interval> for ReportRequest {
     type Error = &'static str;
 
     fn try_into(self) -> Result<Interval, Self::Error> {
-        
-        let from = if let Some (from) = &self.from {
-            match get_epoch_from_formatted (from) {
-                Ok(date) => Some (date),
+        let from = if let Some(from) = &self.from {
+            match get_epoch_from_formatted(from) {
+                Ok(date) => Some(date),
                 Err(err) => return Err(err),
             }
         } else {
             None
         };
 
-        let to = if let Some (to) = &self.to {
-            match get_epoch_from_formatted (to) {
-                Ok(date) => Some (date),
+        let to = if let Some(to) = &self.to {
+            match get_epoch_from_formatted(to) {
+                Ok(date) => Some(date),
                 Err(err) => return Err(err),
             }
         } else {
@@ -58,8 +60,9 @@ impl TryInto <Interval> for ReportRequest {
     }
 }
 
-pub async fn report(filter: Query<ReportRequest>) -> Result<Json<Vec<ReportResponse>>, Json<&'static str>> {
-
+pub async fn report(
+    filter: Query<ReportRequest>,
+) -> Result<Json<Vec<ReportResponse>>, Json<&'static str>> {
     let interval: Result<Interval, _> = filter.0.try_into();
 
     match interval {
@@ -72,7 +75,7 @@ pub async fn report(filter: Query<ReportRequest>) -> Result<Json<Vec<ReportRespo
                 .collect();
 
             Ok(Json(reponses))
-        },
+        }
         Err(err) => Err(Json(err)),
     }
 }
