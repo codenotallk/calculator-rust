@@ -139,3 +139,17 @@ Everything is ok
 
 Now the architecture is like that. The next step is create a new service to consume 
 all messages produced by calculate service. That's it.
+
+## Step 12
+
+We can produce records. Now we need a service to read these records.
+The architecture will be like that.
+
+We'll create a service called store.
+
+I'll clear the database first.
+We have the exactly the architecture showed here.
+
+The Calculate service create and process the operation. It sends to broker. The Store service consumes the record and stores into database.
+
+The Report service reads the database to send us a response with the data. That's it.
