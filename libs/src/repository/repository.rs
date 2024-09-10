@@ -129,6 +129,28 @@ pub async fn get(interval: Interval) -> Vec<Operation> {
     operations
 }
 
+pub async fn get_amount() -> i64 {
+    let url = "host=localhost port=5432 user=root password=root dbname=report_db";
+
+    let (client, connection) = connect(url, NoTls).await.unwrap();
+
+    let mut count: i64 = 0;
+
+    tokio::spawn(async move {
+        if let Err(e) = connection.await {
+            eprintln!("Connection Error: {}", e);
+        }
+    });
+
+    let query = "select count(*) from reports_tb";
+
+    for row in client.query(query, &[]).await.unwrap() {
+        count = row.get(0);
+    }
+
+    count
+}
+
 fn query_build(interval: Interval) -> String {
     let mut query = "select * from reports_tb ".to_string();
 

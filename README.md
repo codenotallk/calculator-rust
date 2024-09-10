@@ -153,3 +153,18 @@ We have the exactly the architecture showed here.
 The Calculate service create and process the operation. It sends to broker. The Store service consumes the record and stores into database.
 
 The Report service reads the database to send us a response with the data. That's it.
+
+## Step 13
+
+We can add a service to notify when an operation was made. To accomplish that we need a scheduler. This resource will be calling a function periodically.
+
+The architecture will be like that
+
+The service will be called as Notifier. The Notifier Service will read a database looking for new registries and will compare with a internal value stored in a file.
+
+To have the scheduler we can use clokwerk and chrono
+
+I will add a new function into repository module to get the count from reports_tb
+The notifier saves the value into file.
+
+That's it.

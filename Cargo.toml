@@ -3,7 +3,7 @@ members = [
     "services/calculate",
     "services/report",
     "libs"
-, "services/store"]
+, "services/store", "services/notifier"]
 
 
 [workspace.dependencies]

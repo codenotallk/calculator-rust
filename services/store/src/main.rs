@@ -4,7 +4,8 @@ use kafka::{
 };
 use libs::{
     common::time::get_epoch_from_formatted,
-    domain::operation::{Operation, OperationBuilder}, repository::repository,
+    domain::operation::{Operation, OperationBuilder},
+    repository::repository,
 };
 use serde::Deserialize;
 
@@ -59,7 +60,7 @@ async fn process_records(mss: MessageSets) {
     for ms in mss.iter() {
         for m in ms.messages() {
             let request: CalculateRequest = serde_json::from_slice(&m.value).unwrap();
-            repository::save (request.into()).await;
+            repository::save(request.into()).await;
         }
     }
 }
