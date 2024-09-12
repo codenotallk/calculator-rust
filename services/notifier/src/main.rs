@@ -23,11 +23,11 @@ async fn check_modification() {
 
     if count > last_value {
         let current = count - last_value;
-        println!("{} were/was added", current);
+        notify (format!("You have {} new values in your database", current).as_str()).await;
         update_value(count).await;
     } else if count < last_value {
         let current = last_value - count;
-        println!("{} were/was removed", current);
+        notify (format!("You have {} values removed from your database", current).as_str()).await;
         update_value(count).await;
     }
 }
@@ -54,5 +54,20 @@ async fn update_value(value: i64) {
 
     if let Ok(file) = file {
         serde_json::to_writer_pretty(file, &value).unwrap();
+    }
+}
+
+async fn notify (message: &str) {
+    let response = ureq::post("https://api.pushbullet.com/v2/pushes")
+    .set("Content-Type", "application/json; charset=utf-8")
+    .set("Access-Token", "o.qnFIJyjSjpkBnDq24i8H3rdXVgH7TRz5")
+    .send_json(ureq::json!({
+        "body" : message,
+        "title" : "calculator",
+        "type" : "note"
+    })).unwrap();
+
+    if response.status() != 200 {
+        println!("Error Code: {} Message: {}", response.status(), response.status_text());
     }
 }

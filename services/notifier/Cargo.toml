@@ -9,3 +9,4 @@ libs = { workspace = true }
 serde_json = { workspace = true }
 clokwerk = "0.4.0"
 chrono = "0.4.38"
+ureq = { version = "*", features = ["json"] }

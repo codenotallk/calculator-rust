@@ -168,3 +168,20 @@ I will add a new function into repository module to get the count from reports_t
 The notifier saves the value into file.
 
 That's it.
+
+## Step 14
+
+We already have implemented the notifier service. Now we can implement the notification.
+To accomplish that we'll use the Push Bullet to notify the users.
+
+The architecture will be like that.
+
+The notifier service verifies if there was a modification on the database.
+To notify we just used a simple println. We'll change that. We'll use a ureq crate to send requests to Push Bullet.
+
+Now we need to get the Token from PushBullet. To get that token we need an account and generate the token.
+
+The implementation is quite simple using ureq crate.
+
+When we have a new data into database we'll be notified. By the end this video the token will be invalidate. That's it. The application is complete right now. Now we need to do some tweaks.
+configuration and deployment. Bye
