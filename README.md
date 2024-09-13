@@ -185,3 +185,13 @@ The implementation is quite simple using ureq crate.
 
 When we have a new data into database we'll be notified. By the end this video the token will be invalidate. That's it. The application is complete right now. Now we need to do some tweaks.
 configuration and deployment. Bye
+
+## Step 15
+
+Most our configuration are hardcoded. That's a bad thing. Let's change this and put these configuration in a file.
+
+I'll use config-file crate for that
+
+I'll put all configurations in just one file. For each service we have a struct to represent it.
+
+The system is working normally through file configuration. Now we can configure the file to set the user's configurations. That's it. Bye

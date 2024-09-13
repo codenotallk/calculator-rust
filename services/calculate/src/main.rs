@@ -11,7 +11,7 @@ use kafka::{
     client::RequiredAcks,
     producer::{Producer, Record},
 };
-use libs::domain::operation::Operation;
+use libs::{common::config::get_config, domain::operation::Operation};
 use routes::{
     calculate::{calculate, AppState, CalculateResponse},
     health::health,
@@ -35,27 +35,29 @@ async fn main() {
         produce_message(rx).await;
     });
 
-    let listener = TcpListener::bind("0.0.0.0:1234").await.unwrap();
+    let listener = TcpListener::bind(format!("0.0.0.0:{}", get_config().unwrap().calculate.port))
+        .await
+        .unwrap();
 
     serve(listener, router).await.unwrap();
 }
 
 async fn produce_message(receiver: Receiver<Operation>) {
-    let brokers = vec!["localhost:9092".to_string()];
+    let config = get_config().unwrap();
 
-    let mut producer = Producer::from_hosts(brokers)
+    let mut producer = Producer::from_hosts(config.broker.hosts)
         .with_ack_timeout(Duration::from_secs(1))
         .with_required_acks(RequiredAcks::One)
         .create()
         .unwrap();
 
-    let topic = "calculate";
-
     loop {
         match receiver.recv() {
             Ok(operation) => {
                 let message = serde_json::to_string(&CalculateResponse::from(operation)).unwrap();
-                producer.send(&Record::from_value(topic, message)).unwrap();
+                producer
+                    .send(&Record::from_value(&config.calculate.topic, message))
+                    .unwrap();
             }
             Err(_) => todo!(),
         }

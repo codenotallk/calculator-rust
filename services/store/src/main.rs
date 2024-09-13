@@ -3,7 +3,7 @@ use kafka::{
     consumer::{Consumer, MessageSets},
 };
 use libs::{
-    common::time::get_epoch_from_formatted,
+    common::{config::get_config, time::get_epoch_from_formatted},
     domain::operation::{Operation, OperationBuilder},
     repository::repository,
 };
@@ -32,13 +32,11 @@ impl Into<Operation> for CalculateRequest {
 
 #[tokio::main]
 async fn main() {
-    let brokers = vec!["localhost:9092".to_owned()];
-    let topic = "calculate".to_string();
-    let group = "calculate-group".to_string();
+    let config = get_config().unwrap();
 
-    let mut consumer = Consumer::from_hosts(brokers)
-        .with_topic(topic)
-        .with_group(group)
+    let mut consumer = Consumer::from_hosts(config.broker.hosts)
+        .with_topic(config.store.topic)
+        .with_group(config.store.group)
         .with_fallback_offset(FetchOffset::Earliest)
         .with_offset_storage(Some(GroupOffsetStorage::Kafka))
         .create()

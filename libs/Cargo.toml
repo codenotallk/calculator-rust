@@ -8,3 +8,4 @@ chrono = {workspace = true}
 serde = {workspace = true}
 tokio = { workspace = true }
 tokio-postgres = {workspace = true}
+config-file = "0.2.3"
